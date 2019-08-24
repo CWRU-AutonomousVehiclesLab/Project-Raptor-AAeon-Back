@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<launch>
+    <include file="$(find bringup_back_aaeon)/launch/lidar.launch">
+        
+    </include>
+
+    <include file="$(find bringup_back_aaeon)/launch/realSense.launch">
+        
+    </include>
+
+    <!-- rf2o bringup -->
+    <node pkg="rf2o_laser_odometry" type="rf2o_laser_odometry_node" name="rf2o_laser_odometry_front" output="screen">
+        <param name="laser_scan_topic" value="/full_lidar"/>
+        <param name="odom_topic" value="/odometry_rf2o/back_lidar"/>
+        <param name="publish_tf" value="true" />
+        <param name="base_frame_id" value="base_link"/>
+        <param name="odom_frame_id" value="odom_rf2o_full_lidar" />
+        <param name="init_pose_from_topic" value="" />
+        <param name="freq" value="30.0"/>
+        <param name="verbose" value="true" />
+    </node>
+
+    <!-- tf publisher -->
+    <node pkg="tf" type="static_transform_publisher" name="full_laser2baselink" args="0 0 0.9144 0 0 0 base_link full_lidar 100">        
+
+    </node>
+</launch>
